@@ -27,6 +27,7 @@ To use it, send a POST request to that route with the data
     "URL": "link to rss page"
 }
 ```
+You will also need to set an `Authorization` header that is equal to the `AUTH` environment variable you set.
 The API will then return the RSS document without exposing the caller's IP address
 
 feel free to copy/use this anywhere :D

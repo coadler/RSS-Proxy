@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -18,6 +19,28 @@ type RSSData struct {
 type JSONError struct {
 	ErrorCode string `json:"code"`
 	Message   string `json:"message"`
+}
+
+var (
+	reddit string
+	auth   string
+)
+
+func init() {
+	quit := false
+	reddit = os.Getenv("REDDIT_USER")
+	if reddit == "" {
+		log.Println("Please set \"REDDIT_USER\" in your environment variables")
+		quit = true
+	}
+	auth = os.Getenv("AUTH")
+	if auth == "" {
+		log.Println("Please set \"AUTH\" in your environment variables")
+		quit = true
+	}
+	if quit {
+		os.Exit(1)
+	}
 }
 
 // Index responds with Hello World so it can easily be tested if the API is running
