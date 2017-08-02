@@ -1,4 +1,4 @@
-note: this was made for [Tatsumaki](https://tatsumaki.xyz) to proxy RSS requests, but in reality it will grab any page and return it so do as you wish ¯\\_(ツ)_/¯
+note: this was made for [Tatsumaki](https://tatsumaki.xyz) to proxy RSS requests, but in reality it will grab any page and return it so do as you wish ¯\\\_(ツ)\_/¯
 
 # RSS-Proxy
 A simple webserver in Go that can proxy RSS requests through an easy to use API without sacrificing performance. 
