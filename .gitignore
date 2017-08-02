@@ -1,0 +1,6 @@
+# Ignore compiled Go Binary
+RSS-Proxy
+
+# Ignore VSCode settings
+.vscode
+\.DS_Store
