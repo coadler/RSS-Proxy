@@ -100,7 +100,7 @@ func GetRSS(w http.ResponseWriter, r *http.Request) {
 
 	if reddit {
 		// Set User-Agent to follow Reddit bot rules
-		req.Header.Set("User-Agent", "GoLang:RSS-Proxy:v1.0.1 (by /u/"+redditUser)
+		req.Header.Set("User-Agent", "GoLang:RSS-Proxy:v1.0.2 (by /u/"+redditUser)
 	} else {
 		req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36")
 	}
