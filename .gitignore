@@ -4,3 +4,4 @@ RSS-Proxy
 # Ignore VSCode settings
 .vscode
 \.DS_Store
+config.json

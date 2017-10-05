@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
-	"os"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 // RSSData holds the structure of the JSON data for GetRSS
@@ -22,24 +22,29 @@ type JSONError struct {
 }
 
 var (
-	reddit string
-	auth   string
+	redditUser string
+	auth       string
 )
 
 func init() {
-	quit := false
-	reddit = os.Getenv("REDDIT_USER")
-	if reddit == "" {
-		log.Println("Please set \"REDDIT_USER\" in your environment variables")
-		quit = true
+	viper.AddConfigPath(".")
+	viper.SetConfigType("json")
+	viper.SetConfigName("config")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
-	auth = os.Getenv("AUTH")
-	if auth == "" {
-		log.Println("Please set \"AUTH\" in your environment variables")
-		quit = true
+
+	if r := viper.GetString("reddit_user"); r != "" {
+		redditUser = r
+	} else {
+		panic("reddit_user not set")
 	}
-	if quit {
-		os.Exit(1)
+
+	if a := viper.GetString("auth"); a != "" {
+		auth = a
+	} else {
+		panic("auth not set")
 	}
 }
 
@@ -51,7 +56,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 // GetRSS is the handler function for /v1/get, which returns the requested RSS document
 func GetRSS(w http.ResponseWriter, r *http.Request) {
 	// super secret password authentication :eyes:
-	if r.Header.Get("Authorization") != os.Getenv("AUTH") {
+	if r.Header.Get("Authorization") != auth {
 		fmt.Fprint(w, ":thonking:\n"+
 			"get off my api you idiot\n"+
 			"i've logged ur ip, prepare for ddos")
@@ -95,7 +100,7 @@ func GetRSS(w http.ResponseWriter, r *http.Request) {
 
 	if reddit {
 		// Set User-Agent to follow Reddit bot rules
-		req.Header.Set("User-Agent", "GoLang:RSS-Proxy:v1.0.1 (by /u/"+os.Getenv("REDDIT_USER"))
+		req.Header.Set("User-Agent", "GoLang:RSS-Proxy:v1.0.1 (by /u/"+redditUser)
 	} else {
 		req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36")
 	}
